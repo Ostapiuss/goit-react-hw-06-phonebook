@@ -29,6 +29,7 @@ export const App = () => {
     if (storageData) {
       dispatch(setInitialItems(storageData))
     }
+    //eslint-disable-next-line
   }, []);
 
   useEffect(() => {
