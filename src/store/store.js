@@ -19,7 +19,7 @@ const rootReducers = combineReducers({
 });
 
 const persistConfig = {
-  key: 'root',
+  key: 'phonebook',
   storage,
 }
 
