@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
+import contactSelector from '../../store/selector';
+
 import { addContact } from "../../store/contactSlice";
 
 import { nanoid } from "nanoid";
@@ -13,7 +15,7 @@ const ContactForm = () => {
     number: ''
   });
 
-  const contacts = useSelector(state => state.contacts.items);
+  const contacts = useSelector(contactSelector.getContact);
   const dispatch = useDispatch();
 
   const formatPhoneNumber = (value) => {
