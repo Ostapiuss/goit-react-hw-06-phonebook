@@ -1,8 +1,19 @@
-import PropTypes from "prop-types";
+import { useDispatch } from 'react-redux';
+
+import {
+  changeFilter,
+} from "../../store/contactSlice";
 
 import './style.scss';
 
-const Filter = ({ onChangeFilter }) => {
+const Filter = () => {
+  const dispatch = useDispatch();
+
+  const onChangeFilter = (event) => {
+    const { value: newSearchValue } = event.target;
+    dispatch(changeFilter(newSearchValue));
+  }
+
   return (
     <div className="filter">
       <label>Find Contacts by name</label>
@@ -16,10 +27,6 @@ const Filter = ({ onChangeFilter }) => {
       />
     </div>
   )
-}
-
-Filter.propTypes = {
-  onChangeFilter: PropTypes.func.isRequired
 }
 
 export default Filter;

@@ -1,14 +1,20 @@
 import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 
-import PropTypes from "prop-types";
+import { addContact } from "../../store/contactSlice";
+
+import { nanoid } from "nanoid";
 
 import './style.scss';
 
-const ContactForm = ({ onAddContact }) => {
+const ContactForm = () => {
   const [formData, setFormData] = useState({
     name: '',
     number: ''
   });
+
+  const contacts = useSelector(state => state.contacts.items);
+  const dispatch = useDispatch();
 
   const formatPhoneNumber = (value) => {
     const phoneNumber = value.replace(/[^\d]/g, '');
@@ -24,6 +30,29 @@ const ContactForm = ({ onAddContact }) => {
       3,
       6
     )}-${phoneNumber.slice(6, 10)}`;
+  }
+
+  const isTheSameNameInCollection = (name) => {
+    return contacts.some((contact) => contact.name.trim().toLowerCase() === name.toLowerCase().trim());
+  }
+
+  const onAddContact = () => {
+    if (formData.name.length <= 0) {
+      alert(`The length should me greater than 0 symbols`);
+      return null;
+    }
+
+    if (isTheSameNameInCollection(formData.name)) {
+      alert(`${formData.name} is already in contacts`);
+      return null;
+    }
+
+    const newContact = {
+      ...formData,
+      id: nanoid()
+    }
+
+    dispatch(addContact(newContact));
   }
 
   const onChange = (event) => {
@@ -67,15 +96,11 @@ const ContactForm = ({ onAddContact }) => {
           required
         />
       </div>
-      <button className="form__button" onClick={() => onAddContact(formData)}>
+      <button className="form__button" onClick={onAddContact}>
         Add contact
       </button>
     </div>
   );
-}
-
-ContactForm.propTypes = {
-  onAddContact: PropTypes.func.isRequired,
 }
 
 export default ContactForm;

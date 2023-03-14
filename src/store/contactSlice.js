@@ -15,10 +15,7 @@ const contactSlice = createSlice({
     },
 
     removeContact(state, { payload: id }) {
-      return {
-        ...state,
-        items: [...state.items].filter(el => el.id !== id)
-      }
+      state.items = state.items.filter(el => el.id !== id)
     },
 
     setInitialItems(state, { payload: items }) {
